@@ -12,6 +12,8 @@ namespace ServerFramework.Server
             MessageCenter<MsgData>.Ins.AddListener(MessageId.CS_GET_BEFORE_ONLINE_PLAYER, OnGetBeforeOnline);
             MessageCenter<MsgData>.Ins.AddListener(MessageId.CS_CLOSE_APP, OnCloseApp);
             MessageCenter<MsgData>.Ins.AddListener(MessageId.CS_PLAYER_MOVE, OnPlayerMove);
+
+
         }
 
         private void OnPlayerMove(MsgData obj)

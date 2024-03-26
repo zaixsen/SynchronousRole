@@ -1,0 +1,7 @@
+E:\AA_Net\Project\ServerFramework\ServerFramework\bin\Debug\ServerFramework.exe.config
+E:\AA_Net\Project\ServerFramework\ServerFramework\bin\Debug\ServerFramework.exe
+E:\AA_Net\Project\ServerFramework\ServerFramework\bin\Debug\ServerFramework.pdb
+E:\AA_Net\Project\ServerFramework\ServerFramework\obj\Debug\ServerFramework.csproj.AssemblyReference.cache
+E:\AA_Net\Project\ServerFramework\ServerFramework\obj\Debug\ServerFramework.csproj.CoreCompileInputs.cache
+E:\AA_Net\Project\ServerFramework\ServerFramework\obj\Debug\ServerFramework.exe
+E:\AA_Net\Project\ServerFramework\ServerFramework\obj\Debug\ServerFramework.pdb

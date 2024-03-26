@@ -32,7 +32,7 @@ namespace ServerFramework.Server
             msg = msg.Concat(BitConverter.GetBytes(len)).Concat(BitConverter.GetBytes(msgId)).Concat(content).ToArray();
             client.socketCli.BeginSend(msg, 0, msg.Length, SocketFlags.None, OnAsySend, client);
         }
-
+           
         private void OnAsySend(IAsyncResult ar)
         {
             try

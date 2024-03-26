@@ -30,7 +30,9 @@ namespace ServerFramework.Server
             int len = 4 + content.Length;
             byte[] msg = new byte[0];
             msg = msg.Concat(BitConverter.GetBytes(len)).Concat(BitConverter.GetBytes(msgId)).Concat(content).ToArray();
-            client.socketCli.BeginSend(msg, 0, msg.Length, SocketFlags.None, OnAsySend, client);
+            client.socketCli.BeginSend(msg, 0, msg.Length, SocketFlags.None, OnAsySend, client);  
+
+
         }
            
         private void OnAsySend(IAsyncResult ar)

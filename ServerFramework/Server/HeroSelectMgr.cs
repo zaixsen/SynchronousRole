@@ -11,6 +11,25 @@ namespace ServerFramework.Server
             MessageCenter<MsgData>.Ins.AddListener(MessageId.CS_PlayerInfo, OnGetPlayerInfo);
             MessageCenter<MsgData>.Ins.AddListener(MessageId.CS_GET_BEFORE_ONLINE_PLAYER, OnGetBeforeOnline);
             MessageCenter<MsgData>.Ins.AddListener(MessageId.CS_CLOSE_APP, OnCloseApp);
+            MessageCenter<MsgData>.Ins.AddListener(MessageId.CS_PLAYER_MOVE, OnPlayerMove);
+        }
+
+        private void OnPlayerMove(MsgData obj)
+        {
+            PlayerData playerData = PlayerData.Parser.ParseFrom(obj.data);
+            obj.client.playerData.Posx = playerData.Posx;
+            obj.client.playerData.Posz = playerData.Posz;
+            obj.client.playerData.Rosy = playerData.Rosy;
+            obj.client.playerData.AniState = playerData.AniState;
+
+            //发送在线的人
+            for (int i = 0; i < NetMgr.Ins.clients.Count; i++)
+            {
+                if (NetMgr.Ins.clients[i].playerData.UserId != playerData.UserId)
+                {
+                    NetMgr.Ins.AsySend(NetMgr.Ins.clients[i], MessageId.SC_PLAYER_MOVE_CALL, playerData.ToByteArray());
+                }
+            }
         }
 
         //发送消息下线 其他玩家不显示此玩家
@@ -41,6 +60,7 @@ namespace ServerFramework.Server
 
             NetMgr.Ins.AsySend(obj.client, MessageId.SC_GET_BEFORE_ONLINE_PLAYERCALL, onlinePlayer.ToByteArray());
         }
+
         int indexPos = -5;
         int Uid = 100001;
 

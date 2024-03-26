@@ -96,6 +96,17 @@ namespace PlayerInfo {
       }
     }
 
+    /// <summary>Field number for the "aniState" field.</summary>
+    public const int AniStateFieldNumber = 7;
+    private global::PlayerInfo.AniState aniState_ = 0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::PlayerInfo.AniState AniState {
+      get { return aniState_; }
+      set {
+        aniState_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
       if (Path.Length != 0) {
@@ -122,6 +133,10 @@ namespace PlayerInfo {
         output.WriteRawTag(48);
         output.WriteInt32(UserId);
       }
+      if (AniState != 0) {
+        output.WriteRawTag(56);
+        output.WriteEnum((int) AniState);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -144,6 +159,9 @@ namespace PlayerInfo {
       }
       if (UserId != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(UserId);
+      }
+      if (AniState != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) AniState);
       }
       return size;
     }
@@ -178,6 +196,10 @@ namespace PlayerInfo {
           }
           case 48: {
             UserId = input.ReadInt32();
+            break;
+          }
+          case 56: {
+            aniState_ = (global::PlayerInfo.AniState) input.ReadEnum();
             break;
           }
         }

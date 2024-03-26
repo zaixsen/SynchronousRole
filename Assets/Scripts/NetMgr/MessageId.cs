@@ -25,6 +25,10 @@ public class MessageId
     public const int CS_CLOSE_APP = 1009;
     public const int SC_CLOSE_APP_RECALL = 1010;
 
+    //玩家移动
+    public const int CS_PLAYER_MOVE = 1011;
+    public const int SC_PLAYER_MOVE_CALL = 1012;
+
 
 }
 

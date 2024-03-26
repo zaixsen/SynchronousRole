@@ -1,4 +1,5 @@
 ﻿using PlayerInfo;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,20 @@ public class CreatPlayer : MonoBehaviour
         MessageCenter<byte[]>.Ins.AddListener(MessageId.SC_GET_BEFORE_ONLINE_PLAYERCALL, GetBeforeOnlinePlayer);
         MessageCenter<byte[]>.Ins.AddListener(MessageId.SC_GET_ONLINE_PLAYERCALL, GetOnlinePlayer);
         MessageCenter<byte[]>.Ins.AddListener(MessageId.SC_CLOSE_APP_RECALL, OhterPlayerDown);
+        MessageCenter<byte[]>.Ins.AddListener(MessageId.SC_PLAYER_MOVE_CALL, OhterPlayerMove);
+    }
+
+    private void OhterPlayerMove(byte[] obj)
+    {
+        PlayerData playerData = PlayerData.Parser.ParseFrom(obj);
+        for (int i = otherPlayers.Count - 1; i >= 0; i--)
+        {
+            if (otherPlayers[i].otherPlayer.UserId == playerData.UserId)
+            {
+                otherPlayers[i].SetAniState(playerData.AniState);
+                otherPlayers[i].SetPlayerState(playerData);
+            }
+        }
     }
 
     private void OhterPlayerDown(byte[] obj)
@@ -58,6 +73,7 @@ public class CreatPlayer : MonoBehaviour
     {
         GameObject player = Instantiate(Resources.Load<GameObject>("Role/" + PlayerModel.Ins.myPlayerData.Path));
         player.transform.position = new Vector3(PlayerModel.Ins.myPlayerData.Posx, 0, 0);
+        player.AddComponent<PlayerMove>();
         //请求获取已经上线的信息
         NetMgr.Ins.AsySend(MessageId.CS_GET_BEFORE_ONLINE_PLAYER, new byte[0]);
     }

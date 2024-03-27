@@ -13,8 +13,23 @@ public class CreatPlayer : MonoBehaviour
         MessageCenter<byte[]>.Ins.AddListener(MessageId.SC_GET_ONLINE_PLAYERCALL, GetOnlinePlayer);
         MessageCenter<byte[]>.Ins.AddListener(MessageId.SC_CLOSE_APP_RECALL, OhterPlayerDown);
         MessageCenter<byte[]>.Ins.AddListener(MessageId.SC_PLAYER_MOVE_CALL, OhterPlayerMove);
-    }
+        MessageCenter<byte[]>.Ins.AddListener(MessageId.SC_SHOW_PLAYER_HP_CALL, OnSetHp);
 
+    }
+    private void OnSetHp(byte[] obj)
+    {
+        PlayerData palyer = PlayerData.Parser.ParseFrom(obj);
+
+        for (int i = otherPlayers.Count - 1; i >= 0; i--)
+        {
+            if (otherPlayers[i].otherPlayer.UserId == palyer.UserId)
+            {
+                otherPlayers[i].otherPlayer = palyer;
+                otherPlayers[i].SetHp();
+            }
+        }
+
+    }
     private void OhterPlayerMove(byte[] obj)
     {
         PlayerData playerData = PlayerData.Parser.ParseFrom(obj);

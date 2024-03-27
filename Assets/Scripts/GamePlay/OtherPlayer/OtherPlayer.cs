@@ -12,10 +12,6 @@ public class OtherPlayer : MonoBehaviour
     public GameObject hpSli;
     Slider slider;
     Text Hptext;
-    private void Awake()
-    {
-        MessageCenter<byte[]>.Ins.AddListener(MessageId.SC_SHOW_PLAYER_HP_CALL, OnSetHp);
-    }
 
     private void Start()
     {
@@ -30,9 +26,8 @@ public class OtherPlayer : MonoBehaviour
         Hptext.text = otherPlayer.NowHp + "/" + otherPlayer.AllHp;
     }
 
-    private void OnSetHp(byte[] obj)
+    public void SetHp()
     {
-        otherPlayer = PlayerData.Parser.ParseFrom(obj);
         slider.value = otherPlayer.NowHp;
         Hptext.text = otherPlayer.NowHp + "/" + otherPlayer.AllHp;
     }

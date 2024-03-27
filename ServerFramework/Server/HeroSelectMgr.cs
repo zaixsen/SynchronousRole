@@ -13,6 +13,33 @@ namespace ServerFramework.Server
             MessageCenter<MsgData>.Ins.AddListener(MessageId.CS_CLOSE_APP, OnCloseApp);
             MessageCenter<MsgData>.Ins.AddListener(MessageId.CS_PLAYER_MOVE, OnPlayerMove);
             MessageCenter<MsgData>.Ins.AddListener(MessageId.CS_SHOW_PLAYER_HP, OnPlayerHp);
+
+            MessageCenter<MsgData>.Ins.AddListener(MessageId.CS_HIT_PLYER, OnPlayerHit);
+
+            MessageCenter<MsgData>.Ins.AddListener(MessageId.CS_SHOW_STATE, OnPlayerState);
+        }
+
+        private void OnPlayerState(MsgData obj)
+        {
+            PlayerData playerData = PlayerData.Parser.ParseFrom(obj.data);
+            obj.client.playerData.AniState = playerData.AniState;
+            NetMgr.Ins.AsyAllSend(MessageId.SC_SHOW_STATE_CALL, playerData.ToByteArray());
+        }
+
+        private void OnPlayerHit(MsgData obj)
+        {
+            //受击玩家的数据
+            PlayerData playerData = PlayerData.Parser.ParseFrom(obj.data);
+            obj.client.playerData.NowHp = playerData.NowHp;
+
+            for (int i = 0; i < NetMgr.Ins.clients.Count; i++)
+            {
+                if (playerData.UserId == NetMgr.Ins.clients[i].playerData.UserId)
+                {
+                    NetMgr.Ins.AsySend(NetMgr.Ins.clients[i], MessageId.SC_HIT_PLYER_CALL, playerData.ToByteArray());
+                }
+            }
+            NetMgr.Ins.AsyAllSend(MessageId.SC_SHOW_PLAYER_HP_CALL, playerData.ToByteArray());
         }
 
         private void OnPlayerHp(MsgData obj)
@@ -22,7 +49,6 @@ namespace ServerFramework.Server
             obj.client.playerData.AllHp = playerData.AllHp;
 
             NetMgr.Ins.AsyAllSend(playerData.UserId, MessageId.SC_SHOW_PLAYER_HP_CALL, playerData.ToByteArray());
-
         }
 
         private void OnPlayerMove(MsgData obj)
@@ -34,7 +60,6 @@ namespace ServerFramework.Server
             obj.client.playerData.AniState = playerData.AniState;
 
             NetMgr.Ins.AsyAllSend(playerData.UserId, MessageId.SC_PLAYER_MOVE_CALL, playerData.ToByteArray());
-
         }
 
         //发送消息下线 其他玩家不显示此玩家
@@ -62,7 +87,6 @@ namespace ServerFramework.Server
                 {
                     onlinePlayer.AllPlyer.Add(NetMgr.Ins.clients[i].playerData);
                 }
-
             }
 
             NetMgr.Ins.AsySend(obj.client, MessageId.SC_GET_BEFORE_ONLINE_PLAYERCALL, onlinePlayer.ToByteArray());

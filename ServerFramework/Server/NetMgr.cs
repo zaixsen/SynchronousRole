@@ -25,6 +25,19 @@ namespace ServerFramework.Server
             socket.BeginAccept(OnAsyAccept, null);
         }
 
+
+        /// <summary>
+        ///发送给所有人包括自己 
+        /// </summary>
+        public void AsyAllSend(int msgId, byte[] content)
+        {
+            for (int i = 0; i < clients.Count; i++)
+            {
+                AsySend(clients[i], msgId, content);
+            }
+        }
+
+
         /// <summary>
         ///发送给所有人 不包括自己 
         /// </summary>

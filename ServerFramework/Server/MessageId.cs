@@ -33,5 +33,14 @@ namespace ServerFramework.Server
         //玩家血量更新
         public const int CS_SHOW_PLAYER_HP = 1013;
         public const int SC_SHOW_PLAYER_HP_CALL = 1014;
+
+        //玩家伤害
+        public const int CS_HIT_PLYER = 1015;
+        public const int SC_HIT_PLYER_CALL = 1016;
+
+        //玩家动画
+        public const int CS_SHOW_STATE = 1017;
+        public const int SC_SHOW_STATE_CALL = 1018;
+
     }
 }

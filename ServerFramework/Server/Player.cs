@@ -10,7 +10,7 @@ namespace PlayerInfo {
 
   #region Enums
   /// <summary>
-  ///动画状态
+  ///动画状态   枚举从0开始
   /// </summary>
   public enum AniState {
     Idle = 0,
@@ -23,7 +23,7 @@ namespace PlayerInfo {
 
   #region Messages
   /// <summary>
-  ///玩家信息
+  ///玩家信息   类从1 开始
   /// </summary>
   public sealed class PlayerData : pb::IMessage {
     private static readonly pb::MessageParser<PlayerData> _parser = new pb::MessageParser<PlayerData>(() => new PlayerData());
@@ -107,6 +107,28 @@ namespace PlayerInfo {
       }
     }
 
+    /// <summary>Field number for the "nowHp" field.</summary>
+    public const int NowHpFieldNumber = 8;
+    private int nowHp_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int NowHp {
+      get { return nowHp_; }
+      set {
+        nowHp_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "allHp" field.</summary>
+    public const int AllHpFieldNumber = 9;
+    private int allHp_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int AllHp {
+      get { return allHp_; }
+      set {
+        allHp_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
       if (Path.Length != 0) {
@@ -137,6 +159,14 @@ namespace PlayerInfo {
         output.WriteRawTag(56);
         output.WriteEnum((int) AniState);
       }
+      if (NowHp != 0) {
+        output.WriteRawTag(64);
+        output.WriteInt32(NowHp);
+      }
+      if (AllHp != 0) {
+        output.WriteRawTag(72);
+        output.WriteInt32(AllHp);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -162,6 +192,12 @@ namespace PlayerInfo {
       }
       if (AniState != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) AniState);
+      }
+      if (NowHp != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(NowHp);
+      }
+      if (AllHp != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(AllHp);
       }
       return size;
     }
@@ -200,6 +236,14 @@ namespace PlayerInfo {
           }
           case 56: {
             aniState_ = (global::PlayerInfo.AniState) input.ReadEnum();
+            break;
+          }
+          case 64: {
+            NowHp = input.ReadInt32();
+            break;
+          }
+          case 72: {
+            AllHp = input.ReadInt32();
             break;
           }
         }

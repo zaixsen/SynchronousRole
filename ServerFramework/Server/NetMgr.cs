@@ -25,16 +25,28 @@ namespace ServerFramework.Server
             socket.BeginAccept(OnAsyAccept, null);
         }
 
+        /// <summary>
+        ///发送给所有人 不包括自己 
+        /// </summary>
+        public void AsyAllSend(int id, int msgId, byte[] content)
+        {
+            for (int i = 0; i < clients.Count; i++)
+            {
+                if (clients[i].playerData.UserId != id)
+                {
+                    AsySend(clients[i], msgId, content);
+                }
+            }
+        }
+
         public void AsySend(Client client, int msgId, byte[] content)
         {
             int len = 4 + content.Length;
             byte[] msg = new byte[0];
             msg = msg.Concat(BitConverter.GetBytes(len)).Concat(BitConverter.GetBytes(msgId)).Concat(content).ToArray();
-            client.socketCli.BeginSend(msg, 0, msg.Length, SocketFlags.None, OnAsySend, client);  
-
-
+            client.socketCli.BeginSend(msg, 0, msg.Length, SocketFlags.None, OnAsySend, client);
         }
-           
+
         private void OnAsySend(IAsyncResult ar)
         {
             try

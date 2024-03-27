@@ -23,6 +23,7 @@ public class OtherPlayer : MonoBehaviour
         hpSli = Instantiate(Resources.Load<GameObject>("Prefabs/HpSlider"), GameObject.Find("Hplay").transform);
         slider = hpSli.GetComponent<Slider>();
 
+
         slider.maxValue = otherPlayer.AllHp;
         slider.value = otherPlayer.NowHp;
         Hptext = hpSli.GetComponentInChildren<Text>();

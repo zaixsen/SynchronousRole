@@ -5,9 +5,14 @@ using UnityEngine;
 
 public class CreatPlayer : MonoBehaviour
 {
+    public static CreatPlayer Ins;
+    //记录其他玩家
     List<OtherPlayer> otherPlayers = new List<OtherPlayer>();
+    public GameObject player;
+
     private void Awake()
     {
+        Ins = this;
         //检测在此之前上线的玩家
         MessageCenter<byte[]>.Ins.AddListener(MessageId.SC_GET_BEFORE_ONLINE_PLAYERCALL, GetBeforeOnlinePlayer);
         MessageCenter<byte[]>.Ins.AddListener(MessageId.SC_GET_ONLINE_PLAYERCALL, GetOnlinePlayer);
@@ -15,7 +20,36 @@ public class CreatPlayer : MonoBehaviour
         MessageCenter<byte[]>.Ins.AddListener(MessageId.SC_PLAYER_MOVE_CALL, OhterPlayerMove);
         MessageCenter<byte[]>.Ins.AddListener(MessageId.SC_SHOW_PLAYER_HP_CALL, OnSetHp);
 
+        MessageCenter<byte[]>.Ins.AddListener(MessageId.SC_HIT_PLYER_CALL, OnSetSelfHp);
+        MessageCenter<byte[]>.Ins.AddListener(MessageId.SC_SHOW_STATE_CALL, OnSetState);
     }
+
+    /// <summary>
+    /// 别人伤害的玩家
+    /// </summary>
+    /// <param name="obj"></param>
+    private void OnSetSelfHp(byte[] obj)
+    {
+        PlayerData hitPlayer = PlayerData.Parser.ParseFrom(obj);
+
+        PlayerModel.Ins.myPlayerData = hitPlayer;
+        player.GetComponent<HPSlider>().SetHp();
+    }
+
+    private void OnSetState(byte[] obj)
+    {
+        PlayerData palyer = PlayerData.Parser.ParseFrom(obj);
+
+        for (int i = otherPlayers.Count - 1; i >= 0; i--)
+        {
+            if (otherPlayers[i].otherPlayer.UserId == palyer.UserId)
+            {
+                otherPlayers[i].otherPlayer = palyer;
+                otherPlayers[i].SetAniState(palyer.AniState);
+            }
+        }
+    }
+
     private void OnSetHp(byte[] obj)
     {
         PlayerData palyer = PlayerData.Parser.ParseFrom(obj);
@@ -28,8 +62,8 @@ public class CreatPlayer : MonoBehaviour
                 otherPlayers[i].SetHp();
             }
         }
-
     }
+
     private void OhterPlayerMove(byte[] obj)
     {
         PlayerData playerData = PlayerData.Parser.ParseFrom(obj);
@@ -72,6 +106,25 @@ public class CreatPlayer : MonoBehaviour
         }
     }
 
+    public OtherPlayer GetMinDisPlayer()
+    {
+        if (otherPlayers.Count == 0) return null;
+
+        OtherPlayer minPlayer = otherPlayers[0];
+        float minDis = Vector3.Distance(player.transform.position, minPlayer.transform.position);
+
+        for (int i = 1; i < otherPlayers.Count; i++)
+        {
+            float Dis = Vector3.Distance(player.transform.position, otherPlayers[i].transform.position);
+            if (minDis > Dis)
+            {
+                minDis = Dis;
+                minPlayer = otherPlayers[i];
+            }
+        }
+        return minPlayer;
+    }
+
     //单个人上线
     private void GetOnlinePlayer(byte[] obj)
     {
@@ -86,11 +139,12 @@ public class CreatPlayer : MonoBehaviour
 
     private void Start()
     {
-        GameObject player = Instantiate(Resources.Load<GameObject>("Role/" + PlayerModel.Ins.myPlayerData.Path));
+        player = Instantiate(Resources.Load<GameObject>("Role/" + PlayerModel.Ins.myPlayerData.Path));
         player.transform.position = new Vector3(PlayerModel.Ins.myPlayerData.Posx, 0, 0);
         player.AddComponent<PlayerMove>();
         player.AddComponent<HPSlider>();
         player.tag = "Player";
+
         //请求获取已经上线的信息
         NetMgr.Ins.AsySend(MessageId.CS_GET_BEFORE_ONLINE_PLAYER, new byte[0]);
     }

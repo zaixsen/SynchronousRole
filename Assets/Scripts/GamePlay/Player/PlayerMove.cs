@@ -2,16 +2,48 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Google.Protobuf;
+using System;
+
 public class PlayerMove : MonoBehaviour
 {
     Animator animator;
+    bool isOne = false;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
     }
-    bool isOne = false;
+
+
     private void Update()
+    {
+        Move();
+
+        Attack();
+    }
+
+    private void Attack()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            //float minDis = Vector3.Distance(player.transform.position, minPlayer.transform.position);
+
+            PlayerModel.Ins.myPlayerData.AniState = PlayerInfo.AniState.Attack;
+            NetMgr.Ins.AsySend(MessageId.CS_SHOW_STATE, PlayerModel.Ins.myPlayerData.ToByteArray());
+
+            animator.SetTrigger("Atk");
+        }
+    }
+
+    public void Atk()
+    {
+        OtherPlayer otherPlayer = CreatPlayer.Ins.GetMinDisPlayer();
+        if (otherPlayer == null) return;
+
+        otherPlayer.SetHit(50);
+    }
+
+    private void Move()
     {
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
@@ -40,7 +72,5 @@ public class PlayerMove : MonoBehaviour
             NetMgr.Ins.AsySend(MessageId.CS_PLAYER_MOVE, PlayerModel.Ins.myPlayerData.ToByteArray());
             isOne = false;
         }
-
-
     }
 }

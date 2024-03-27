@@ -21,6 +21,12 @@ public class HPSlider : MonoBehaviour
         Hptext.text = PlayerModel.Ins.myPlayerData.NowHp + "/" + PlayerModel.Ins.myPlayerData.AllHp;
     }
 
+    public void SetHp()
+    {
+        slider.value = PlayerModel.Ins.myPlayerData.NowHp;
+        Hptext.text = PlayerModel.Ins.myPlayerData.NowHp + "/" + PlayerModel.Ins.myPlayerData.AllHp;
+    }
+
     public void SetHp(int hit)
     {
         PlayerModel.Ins.myPlayerData.NowHp -= hit;

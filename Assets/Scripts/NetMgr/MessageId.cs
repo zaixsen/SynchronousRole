@@ -20,7 +20,6 @@ public class MessageId
     public const int CS_GET_ONLINE_PLAYER = 1007;
     public const int SC_GET_ONLINE_PLAYERCALL = 1008;
 
-
     //关闭
     public const int CS_CLOSE_APP = 1009;
     public const int SC_CLOSE_APP_RECALL = 1010;
@@ -32,6 +31,16 @@ public class MessageId
     //玩家血量更新
     public const int CS_SHOW_PLAYER_HP = 1013;
     public const int SC_SHOW_PLAYER_HP_CALL = 1014;
+
+    //玩家血量更新
+    public const int CS_HIT_PLYER = 1015;
+    public const int SC_HIT_PLYER_CALL = 1016;
+
+
+    //玩家动画
+    public const int CS_SHOW_STATE = 1017;
+    public const int SC_SHOW_STATE_CALL = 1018;
+
 
 
 }

@@ -22,10 +22,6 @@ public class GameManager : MonoBehaviour
     {
         NetMgr.Ins.NetUpData();
 
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            GameObject.FindGameObjectWithTag("Player").GetComponent<HPSlider>().SetHp(10);
-        }
     }
 
 

@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Google.Protobuf;
 public class OtherPlayer : MonoBehaviour
 {
     public PlayerData otherPlayer;
@@ -32,6 +32,15 @@ public class OtherPlayer : MonoBehaviour
         Hptext.text = otherPlayer.NowHp + "/" + otherPlayer.AllHp;
     }
 
+    public void SetHit(int hit)
+    {
+        slider.value -= hit;
+        otherPlayer.NowHp -= hit;
+        Hptext.text = otherPlayer.NowHp + "/" + otherPlayer.AllHp;
+
+        NetMgr.Ins.AsySend(MessageId.CS_HIT_PLYER, otherPlayer.ToByteArray());
+    }
+
     public void SetPlayerState(PlayerData playerData)
     {
         Vector3 pos = new Vector3(playerData.Posx, 0, playerData.Posz);
@@ -57,12 +66,18 @@ public class OtherPlayer : MonoBehaviour
                 animator.SetBool("Move", true);
                 break;
             case AniState.Attack:
+                animator.SetTrigger("Atk");
                 break;
             case AniState.Death:
                 break;
             default:
                 break;
         }
+    }
+
+    void Atk()
+    {
+
     }
 
     private void OnDestroy()

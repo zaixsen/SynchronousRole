@@ -6,6 +6,12 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Ins;
+    public Transform trs_Hplay;
+    private void Awake()
+    {
+        Ins = this;
+    }
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
@@ -15,6 +21,11 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         NetMgr.Ins.NetUpData();
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            GameObject.FindGameObjectWithTag("Player").GetComponent<HPSlider>().SetHp(10);
+        }
     }
 
 

@@ -29,6 +29,10 @@ public class MessageId
     public const int CS_PLAYER_MOVE = 1011;
     public const int SC_PLAYER_MOVE_CALL = 1012;
 
+    //玩家血量更新
+    public const int CS_SHOW_PLAYER_HP = 1013;
+    public const int SC_SHOW_PLAYER_HP_CALL = 1014;
+
 
 }
 

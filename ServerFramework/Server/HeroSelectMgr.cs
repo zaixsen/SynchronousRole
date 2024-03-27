@@ -62,6 +62,7 @@ namespace ServerFramework.Server
                 {
                     onlinePlayer.AllPlyer.Add(NetMgr.Ins.clients[i].playerData);
                 }
+
             }
 
             NetMgr.Ins.AsySend(obj.client, MessageId.SC_GET_BEFORE_ONLINE_PLAYERCALL, onlinePlayer.ToByteArray());

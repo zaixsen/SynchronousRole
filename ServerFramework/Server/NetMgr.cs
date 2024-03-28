@@ -37,7 +37,6 @@ namespace ServerFramework.Server
             }
         }
 
-
         /// <summary>
         ///发送给所有人 不包括自己 
         /// </summary>

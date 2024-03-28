@@ -19,7 +19,6 @@ public class OtherPlayer : MonoBehaviour
         hpSli = Instantiate(Resources.Load<GameObject>("Prefabs/HpSlider"), GameObject.Find("Hplay").transform);
         slider = hpSli.GetComponent<Slider>();
 
-
         slider.maxValue = otherPlayer.AllHp;
         slider.value = otherPlayer.NowHp;
         Hptext = hpSli.GetComponentInChildren<Text>();
@@ -41,23 +40,14 @@ public class OtherPlayer : MonoBehaviour
         NetMgr.Ins.AsySend(MessageId.CS_HIT_PLYER, otherPlayer.ToByteArray());
     }
 
-    public void SetPlayerState(PlayerData playerData)
+    public void SetPlayerState(PlayerData otherPlyer)
     {
-        Vector3 pos = new Vector3(playerData.Posx, 0, playerData.Posz);
-        Vector3 rotate = new Vector3(0, playerData.Rosy, 0);
-        transform.position = pos;
-        transform.eulerAngles = rotate;
-    }
+        otherPlayer = otherPlyer;
 
-    private void Update()
-    {
-        hpSli.transform.position = Camera.main.WorldToScreenPoint(transform.position) + Vector3.up * 60;
+        transform.position = new Vector3(otherPlyer.Posx, 0, otherPlyer.Posz);
+        transform.eulerAngles = new Vector3(0, otherPlyer.Rosy, 0);
 
-    }
-
-    public void SetAniState(AniState aniState)
-    {
-        switch (aniState)
+        switch (otherPlyer.AniState)
         {
             case AniState.Idle:
                 animator.SetBool("Move", false);
@@ -73,6 +63,11 @@ public class OtherPlayer : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    private void Update()
+    {
+        hpSli.transform.position = Camera.main.WorldToScreenPoint(transform.position) + Vector3.up * 60;
     }
 
     void Atk()

@@ -33,7 +33,7 @@ public class HPSlider : MonoBehaviour
         slider.value -= hit;
         Hptext.text = PlayerModel.Ins.myPlayerData.NowHp + "/" + PlayerModel.Ins.myPlayerData.AllHp;
         //发送自身信息
-        NetMgr.Ins.AsySend(MessageId.CS_SHOW_PLAYER_HP, PlayerModel.Ins.myPlayerData.ToByteArray());
+        NetMgr.Ins.AsySend(MessageId.CS_PLAYER_UPDATE, PlayerModel.Ins.myPlayerData.ToByteArray());
     }
 
     private void Update()

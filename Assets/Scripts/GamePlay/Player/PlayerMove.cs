@@ -14,7 +14,6 @@ public class PlayerMove : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-
     private void Update()
     {
         Move();
@@ -26,10 +25,9 @@ public class PlayerMove : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            //float minDis = Vector3.Distance(player.transform.position, minPlayer.transform.position);
 
             PlayerModel.Ins.myPlayerData.AniState = PlayerInfo.AniState.Attack;
-            NetMgr.Ins.AsySend(MessageId.CS_SHOW_STATE, PlayerModel.Ins.myPlayerData.ToByteArray());
+            NetMgr.Ins.AsySend(MessageId.CS_PLAYER_UPDATE, PlayerModel.Ins.myPlayerData.ToByteArray());
 
             animator.SetTrigger("Atk");
         }
@@ -62,14 +60,14 @@ public class PlayerMove : MonoBehaviour
             PlayerModel.Ins.myPlayerData.AniState = PlayerInfo.AniState.Run;
 
             isOne = true;
-            NetMgr.Ins.AsySend(MessageId.CS_PLAYER_MOVE, PlayerModel.Ins.myPlayerData.ToByteArray());
+            NetMgr.Ins.AsySend(MessageId.CS_PLAYER_UPDATE, PlayerModel.Ins.myPlayerData.ToByteArray());
         }
         else if (pos == Vector3.zero && isOne)
         {
             PlayerModel.Ins.myPlayerData.AniState = PlayerInfo.AniState.Idle;
             animator.SetBool("Move", false);
 
-            NetMgr.Ins.AsySend(MessageId.CS_PLAYER_MOVE, PlayerModel.Ins.myPlayerData.ToByteArray());
+            NetMgr.Ins.AsySend(MessageId.CS_PLAYER_UPDATE, PlayerModel.Ins.myPlayerData.ToByteArray());
             isOne = false;
         }
     }

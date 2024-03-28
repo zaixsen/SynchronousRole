@@ -9,7 +9,7 @@ public class MessageId
 {
     public const int CS_LOGIN = 1001;        //上行协议
     public const int SC_LOGIN_CALL = 1002;   //下行协议
-
+    //玩家信息
     public const int CS_PlayerInfo = 1003;
     public const int SC_PlayerInfo = 1004;
 
@@ -24,24 +24,13 @@ public class MessageId
     public const int CS_CLOSE_APP = 1009;
     public const int SC_CLOSE_APP_RECALL = 1010;
 
-    //玩家移动
-    public const int CS_PLAYER_MOVE = 1011;
-    public const int SC_PLAYER_MOVE_CALL = 1012;
-
-    //玩家血量更新
-    public const int CS_SHOW_PLAYER_HP = 1013;
-    public const int SC_SHOW_PLAYER_HP_CALL = 1014;
-
-    //玩家血量更新
+    //玩家伤害
     public const int CS_HIT_PLYER = 1015;
     public const int SC_HIT_PLYER_CALL = 1016;
 
-
-    //玩家动画
-    public const int CS_SHOW_STATE = 1017;
-    public const int SC_SHOW_STATE_CALL = 1018;
-
-
+    //总体玩家更新
+    public const int CS_PLAYER_UPDATE = 1019;
+    public const int SC_PLAYER_UPDATE_CALL = 1020;
 
 }
 

@@ -17,11 +17,22 @@ public class CreatPlayer : MonoBehaviour
         MessageCenter<byte[]>.Ins.AddListener(MessageId.SC_GET_BEFORE_ONLINE_PLAYERCALL, GetBeforeOnlinePlayer);
         MessageCenter<byte[]>.Ins.AddListener(MessageId.SC_GET_ONLINE_PLAYERCALL, GetOnlinePlayer);
         MessageCenter<byte[]>.Ins.AddListener(MessageId.SC_CLOSE_APP_RECALL, OhterPlayerDown);
-        MessageCenter<byte[]>.Ins.AddListener(MessageId.SC_PLAYER_MOVE_CALL, OhterPlayerMove);
-        MessageCenter<byte[]>.Ins.AddListener(MessageId.SC_SHOW_PLAYER_HP_CALL, OnSetHp);
-
         MessageCenter<byte[]>.Ins.AddListener(MessageId.SC_HIT_PLYER_CALL, OnSetSelfHp);
-        MessageCenter<byte[]>.Ins.AddListener(MessageId.SC_SHOW_STATE_CALL, OnSetState);
+        MessageCenter<byte[]>.Ins.AddListener(MessageId.SC_PLAYER_UPDATE_CALL, OnOtherPlayerDataUpdate);
+    }
+
+    private void OnOtherPlayerDataUpdate(byte[] obj)
+    {
+        PlayerData palyer = PlayerData.Parser.ParseFrom(obj);
+
+        for (int i = otherPlayers.Count - 1; i >= 0; i--)
+        {
+            if (otherPlayers[i].otherPlayer.UserId == palyer.UserId)
+            {
+                otherPlayers[i].SetPlayerState(palyer);
+                otherPlayers[i].SetHp();
+            }
+        }
     }
 
     /// <summary>
@@ -34,47 +45,6 @@ public class CreatPlayer : MonoBehaviour
 
         PlayerModel.Ins.myPlayerData = hitPlayer;
         player.GetComponent<HPSlider>().SetHp();
-    }
-
-    private void OnSetState(byte[] obj)
-    {
-        PlayerData palyer = PlayerData.Parser.ParseFrom(obj);
-
-        for (int i = otherPlayers.Count - 1; i >= 0; i--)
-        {
-            if (otherPlayers[i].otherPlayer.UserId == palyer.UserId)
-            {
-                otherPlayers[i].otherPlayer = palyer;
-                otherPlayers[i].SetAniState(palyer.AniState);
-            }
-        }
-    }
-
-    private void OnSetHp(byte[] obj)
-    {
-        PlayerData palyer = PlayerData.Parser.ParseFrom(obj);
-
-        for (int i = otherPlayers.Count - 1; i >= 0; i--)
-        {
-            if (otherPlayers[i].otherPlayer.UserId == palyer.UserId)
-            {
-                otherPlayers[i].otherPlayer = palyer;
-                otherPlayers[i].SetHp();
-            }
-        }
-    }
-
-    private void OhterPlayerMove(byte[] obj)
-    {
-        PlayerData playerData = PlayerData.Parser.ParseFrom(obj);
-        for (int i = otherPlayers.Count - 1; i >= 0; i--)
-        {
-            if (otherPlayers[i].otherPlayer.UserId == playerData.UserId)
-            {
-                otherPlayers[i].SetAniState(playerData.AniState);
-                otherPlayers[i].SetPlayerState(playerData);
-            }
-        }
     }
 
     private void OhterPlayerDown(byte[] obj)
@@ -91,7 +61,7 @@ public class CreatPlayer : MonoBehaviour
         }
     }
 
-    //上线之前 上线的人 
+    //上线之前 上线的人
     private void GetBeforeOnlinePlayer(byte[] obj)
     {
         OnlinePlayer onlinePlayer = OnlinePlayer.Parser.ParseFrom(obj);

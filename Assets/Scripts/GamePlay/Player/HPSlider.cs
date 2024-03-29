@@ -9,7 +9,7 @@ public class HPSlider : MonoBehaviour
     GameObject hpSli;
     Slider slider;
     Text Hptext;
-    public int hight = 60;
+    public int hight = 120;
 
     private void Start()
     {

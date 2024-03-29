@@ -13,6 +13,7 @@ public class SelectRolePanel : MonoBehaviour
     public InputField ipt_username;
     int rolePath = 1;
 
+    public GameObject roomPanel;
     private void Awake()
     {
         MessageCenter<byte[]>.Ins.AddListener(MessageId.SC_PlayerInfo, GetPlayerInfo);
@@ -22,7 +23,8 @@ public class SelectRolePanel : MonoBehaviour
     {
         PlayerModel.Ins.SetPlayerData(PlayerData.Parser.ParseFrom(obj));
 
-        SceneManager.LoadScene("Game");
+        gameObject.SetActive(false);
+        roomPanel.SetActive(true);
     }
 
     private void Start()
@@ -48,7 +50,6 @@ public class SelectRolePanel : MonoBehaviour
 
             //发送服务器
             NetMgr.Ins.AsySend(MessageId.CS_PlayerInfo, playerData.ToByteArray());
-
 
         });
     }

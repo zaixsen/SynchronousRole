@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Ins;
-    public Transform trs_Hplay;
     private void Awake()
     {
         Ins = this;

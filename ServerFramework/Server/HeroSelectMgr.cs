@@ -22,12 +22,7 @@ namespace ServerFramework.Server
             //更新服务器玩家数据
             PlayerData playerData = PlayerData.Parser.ParseFrom(obj.data);
 
-            obj.client.playerData.Posx = playerData.Posx;
-            obj.client.playerData.Posz = playerData.Posz;
-            obj.client.playerData.Rosy = playerData.Rosy;
-            obj.client.playerData.NowHp = playerData.NowHp;
-            obj.client.playerData.AllHp = playerData.AllHp;
-            obj.client.playerData.AniState = playerData.AniState;
+            obj.client.playerData = playerData;
 
             NetMgr.Ins.AsyAllSend(playerData.UserId, MessageId.SC_PLAYER_UPDATE_CALL, playerData.ToByteArray());
         }
@@ -73,7 +68,7 @@ namespace ServerFramework.Server
                 }
             }
 
-            NetMgr.Ins.AsySend(obj.client, MessageId.SC_GET_BEFORE_ONLINE_PLAYERCALL, onlinePlayer.ToByteArray());
+            //NetMgr.Ins.AsySend(obj.client, MessageId.SC_GET_BEFORE_ONLINE_PLAYERCALL, onlinePlayer.ToByteArray());
         }
 
         //玩家数据 初始化
@@ -98,6 +93,8 @@ namespace ServerFramework.Server
             NetMgr.Ins.AsySend(obj.client, MessageId.SC_PlayerInfo, playerData.ToByteArray());
 
             NetMgr.Ins.AsyAllSend(playerData.UserId, MessageId.SC_GET_ONLINE_PLAYERCALL, playerData.ToByteArray());
+
+            RoomMgr.Ins.SendClientExitRoom();
         }
     }
 }

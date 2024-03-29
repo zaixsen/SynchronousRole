@@ -300,6 +300,165 @@ namespace PlayerInfo {
 
   }
 
+  public sealed class RoomData : pb::IMessage {
+    private static readonly pb::MessageParser<RoomData> _parser = new pb::MessageParser<RoomData>(() => new RoomData());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<RoomData> Parser { get { return _parser; } }
+
+    /// <summary>Field number for the "roomId" field.</summary>
+    public const int RoomIdFieldNumber = 1;
+    private int roomId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int RoomId {
+      get { return roomId_; }
+      set {
+        roomId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "roomMaxPerson" field.</summary>
+    public const int RoomMaxPersonFieldNumber = 2;
+    private int roomMaxPerson_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int RoomMaxPerson {
+      get { return roomMaxPerson_; }
+      set {
+        roomMaxPerson_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "allPlyer" field.</summary>
+    public const int AllPlyerFieldNumber = 3;
+    private static readonly pb::FieldCodec<global::PlayerInfo.PlayerData> _repeated_allPlyer_codec
+        = pb::FieldCodec.ForMessage(26, global::PlayerInfo.PlayerData.Parser);
+    private readonly pbc::RepeatedField<global::PlayerInfo.PlayerData> allPlyer_ = new pbc::RepeatedField<global::PlayerInfo.PlayerData>();
+    /// <summary>
+    ///房间内玩家
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::PlayerInfo.PlayerData> AllPlyer {
+      get { return allPlyer_; }
+    }
+
+    /// <summary>Field number for the "roomState" field.</summary>
+    public const int RoomStateFieldNumber = 4;
+    private int roomState_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int RoomState {
+      get { return roomState_; }
+      set {
+        roomState_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (RoomId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(RoomId);
+      }
+      if (RoomMaxPerson != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(RoomMaxPerson);
+      }
+      allPlyer_.WriteTo(output, _repeated_allPlyer_codec);
+      if (RoomState != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(RoomState);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (RoomId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(RoomId);
+      }
+      if (RoomMaxPerson != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(RoomMaxPerson);
+      }
+      size += allPlyer_.CalculateSize(_repeated_allPlyer_codec);
+      if (RoomState != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(RoomState);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            RoomId = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            RoomMaxPerson = input.ReadInt32();
+            break;
+          }
+          case 26: {
+            allPlyer_.AddEntriesFrom(input, _repeated_allPlyer_codec);
+            break;
+          }
+          case 32: {
+            RoomState = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed class RoomList : pb::IMessage {
+    private static readonly pb::MessageParser<RoomList> _parser = new pb::MessageParser<RoomList>(() => new RoomList());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<RoomList> Parser { get { return _parser; } }
+
+    /// <summary>Field number for the "roomList" field.</summary>
+    public const int RoomList_FieldNumber = 1;
+    private static readonly pb::FieldCodec<global::PlayerInfo.RoomData> _repeated_roomList_codec
+        = pb::FieldCodec.ForMessage(10, global::PlayerInfo.RoomData.Parser);
+    private readonly pbc::RepeatedField<global::PlayerInfo.RoomData> roomList_ = new pbc::RepeatedField<global::PlayerInfo.RoomData>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::PlayerInfo.RoomData> RoomList_ {
+      get { return roomList_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      roomList_.WriteTo(output, _repeated_roomList_codec);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      size += roomList_.CalculateSize(_repeated_roomList_codec);
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 10: {
+            roomList_.AddEntriesFrom(input, _repeated_roomList_codec);
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
   #endregion
 
 }

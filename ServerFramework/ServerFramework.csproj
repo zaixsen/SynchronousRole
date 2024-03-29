@@ -91,6 +91,7 @@
     <Compile Include="Server\MsgData.cs" />
     <Compile Include="Server\NetMgr.cs" />
     <Compile Include="Server\Player.cs" />
+    <Compile Include="Server\RoomMgr.cs" />
     <Compile Include="Server\Singleton.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -34,5 +34,10 @@ namespace ServerFramework.Server
         public const int CS_PLAYER_UPDATE = 1019;
         public const int SC_PLAYER_UPDATE_CALL = 1020;
 
+        //新建房间
+        public const int CS_CREAT_ROOM = 1021;
+        public const int SC_CREAT_ROOM_CALL = 1022;
+        public const int SC_BEFORE_ROOM_CALL = 1023;
+
     }
 }

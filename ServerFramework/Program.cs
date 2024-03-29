@@ -15,6 +15,7 @@ namespace ServerFramework
         {
             HeroSelectMgr.Ins.Init();
             NetMgr.Ins.Init();
+            RoomMgr.Ins.Init();
 
             Console.Read();
         }
